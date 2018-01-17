@@ -1,10 +1,3 @@
-% BibTeX `apalike-oadoi' bibliography style which displays different IDs like DOI, ISBN, ISSN, but also the URL.
-% It uses \href and \url, so be sure to use the package hyperref for it to work.
-% MODIFICATIONS:
-% - Make a URL for DOI based on oadoi.org
-% Time-stamp:<Last updated on 2017-01-14 at 22:39 by devinberg@gmail.com>
-% 
-% Was:
 % BibTeX `apalike-refs' bibliography style which displays different IDs like DOI, ISBN, ISSN, but also the URL.
 % It uses \href and \url, so be sure to use the package hyperref for it to work.
 % It is based on the `apalike-doi' of Jan Even Øie Nilsen:
@@ -75,6 +68,7 @@
 ENTRY
   { address
     author
+    shortauthor
     booktitle
     chapter
     eid
@@ -375,7 +369,7 @@ FUNCTION {format.doi}
 {
   doi empty$
     { "" }
-    { "DOI: \href{http://oadoi.org/" doi * "}{\ttfamily " * doi escape.url.characters * "}" * }
+    { "DOI: \href{https://dx.doi.org/" doi * "}{\ttfamily " * doi escape.url.characters * "}" * }
   if$
 }
 
@@ -1059,13 +1053,17 @@ FUNCTION {format.lab.names}
 }
 
 FUNCTION {author.key.label}
-{ author empty$
-    { key empty$
-	{ cite$ #1 #3 substring$ }
-	'key					% apalike uses the whole key
-      if$
-    }
-    { author format.lab.names }
+{ shortauthor empty$
+	{ author empty$
+		{ key empty$
+			{ cite$ #1 #3 substring$ }
+			'key					% apalike uses the whole key
+		  if$
+		}
+		{ author format.lab.names }
+	  if$
+	}
+	{ shortauthor format.lab.names }
   if$
 }
 
